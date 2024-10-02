@@ -5,13 +5,31 @@ from rest_framework import routers, serializers, viewsets
 from app.views import  EmployeesViewSet, ProjectsViewSet, UserViewSet
 from django.db.models import Q
 
-# Serializers define the API representation.
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+# from app.views import login, logout_view
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="My API",
+        default_version='v1',
+        description="Тестовое описание",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@myapi.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['url', 'username', 'email', 'is_staff', 'id', 'first_name', 'last_name']
 
-# ViewSets define the view behavior.
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -41,4 +59,11 @@ urlpatterns = [
     path('employees/Age/<int:age>/', EmployeesViewSet.as_view({'get': 'filterEmployeesByAge'}), name='employees-age'),
     path('employees/<int:pk>/newProject/', EmployeesViewSet.as_view({'post': 'newProject'}), name='employees-new-project'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('swagger/',
+        schema_view.with_ui('swagger', cache_timeout=0),
+        name='schema-swagger-ui'
+    ),
+    # path('auth/', include('social_django.urls', namespace='social')),
+    # path('login/', login, name='login'),
+    # path('logout/', logout_view, name='logout'),
 ]

@@ -11,6 +11,8 @@ from django_filters import FilterSet
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 
+# from django.shortcuts import redirect
+# from django.contrib.auth import logout
 
 class EmployeesViewSet(viewsets.ModelViewSet):
     queryset = Employees.objects.all()
@@ -72,3 +74,11 @@ class ProjectsViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+# def login(request):
+#     return redirect('/auth/login/vk/') 
+
+# def logout_view(request):
+#     logout(request)
+#     return redirect('/')

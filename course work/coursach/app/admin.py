@@ -37,7 +37,7 @@ class EmployeesAdmin(admin.ModelAdmin, ExportActionMixin):
             for row in queryset:
                 xlsx_data.writerow(EmployeesResource().export_resource(row))
         elif export_format == 'cvs':
-            cvs_data = EmployeesResource()
+            csv_data = EmployeesResource()
             dataset = csv_data.export(queryset)
             dataset.export(response)
         else:

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_filters',
     'simple_history',
     'import_export',
+    'drf_yasg',
+    # 'social_django',
 ]
 
 REST_FRAMEWORK = {
@@ -51,6 +53,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+    #  'AUTHENTICATION_BACKENDS': (
+    #     'social_core.backends.vk.VKOAuth2',
+    #     'django.contrib.auth.backends.ModelBackend',
+    # ),
+    
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': [
@@ -59,6 +66,26 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter'
         ]
 }
+
+# Celery
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+# MailHog
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mailhog'
+EMAIL_PORT = 1025
+
+# SOCIAL_AUTH_VK_OAUTH2_KEY = '52396104'
+# SOCIAL_AUTH_VK_OAUTH2_SECRET = 'EQhACRpsZOoSImuKkD2G'
+
+# LOGIN_URL = 'login'
+# LOGOUT_URL = 'logout'
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
+
+# SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 EXPORT_FORMATS = {
     'csv': 'csv',
@@ -107,6 +134,12 @@ DATABASES = {
     }
 }
 
+#mailHOG
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mailhog'
+EMAIL_PORT = 1025
+
+CELERY_BROKER_URL = 'memory://'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

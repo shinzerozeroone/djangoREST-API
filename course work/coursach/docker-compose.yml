@@ -1,0 +1,36 @@
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mailhog
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+
+  celeryworker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celeryworker
+    command: celery -A coursach worker --loglevel=info
+    depends_on:
+      - django
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celerybeat
+    command: celery -A coursach beat --loglevel=info
+    depends_on:
+      - django
